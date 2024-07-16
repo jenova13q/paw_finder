@@ -1,3 +1,7 @@
+from __future__ import with_statement
+import sys
+import os
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -6,9 +10,14 @@ from sqlalchemy import pool
 from alembic import context
 
 from dotenv import load_dotenv
+from app.models import Base
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Добавьте путь к приложению
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,8 +32,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
-
+target_metadata = Base.metadata
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
